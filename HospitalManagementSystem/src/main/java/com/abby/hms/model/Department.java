@@ -1,7 +1,6 @@
 package com.abby.hms.model;
 
-import javax.persistence.*;
-import java.util.List;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "departments")
@@ -14,8 +13,9 @@ public class Department {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "department")
-    private List<Doctor> doctors;
+    @ManyToOne
+    @JoinColumn(name = "head_id", nullable = false)
+    private Staff head;  // Assuming the department head is a staff member.
 
     // Getters and setters
     public Long getId() {
@@ -34,11 +34,11 @@ public class Department {
         this.name = name;
     }
 
-    public List<Doctor> getDoctors() {
-        return doctors;
+    public Staff getHead() {
+        return head;
     }
 
-    public void setDoctors(List<Doctor> doctors) {
-        this.doctors = doctors;
+    public void setHead(Staff head) {
+        this.head = head;
     }
 }

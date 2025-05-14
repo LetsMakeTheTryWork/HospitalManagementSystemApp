@@ -1,6 +1,6 @@
 package com.abby.hms.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
@@ -19,6 +19,9 @@ public class Patient {
 
     @Column(nullable = false)
     private String contact;
+
+    @Column
+    private String address;
 
     @OneToMany(mappedBy = "patient")
     private List<Appointment> appointments;
@@ -57,6 +60,14 @@ public class Patient {
 
     public void setContact(String contact) {
         this.contact = contact;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public List<Appointment> getAppointments() {

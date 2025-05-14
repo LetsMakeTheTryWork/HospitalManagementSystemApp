@@ -28,7 +28,7 @@
 
 	<!-- Dependencies -->
 	<dependencies>
-<!--		 Spring Boot Starter Web (for RESTful API and MVC support) -->
+		<!-- Spring Boot Starter Web (for RESTful API and MVC support) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -40,14 +40,17 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
+		<!-- Spring Boot Starter Security (for security support) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
+		<!-- Spring Boot Starter Test (for testing support) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- MySQL Connector (for MySQL Database connection) -->
@@ -55,12 +58,6 @@
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
-		</dependency>
-
-		<!-- Spring Boot Starter Security (optional, for securing the system) -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
 		<!-- JUnit 5 for Testing -->
@@ -73,13 +70,6 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- Spring Boot Starter Test (for testing support) -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 
@@ -108,23 +98,20 @@
 
 	<!-- Build Section -->
 	<build>
-			<plugins>
-				<!-- Spring Boot Maven Plugin (for packaging and running the Spring Boot app) -->
-				<plugin>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-maven-plugin</artifactId>
-				</plugin>
+		<plugins>
+			<!-- Spring Boot Maven Plugin (for packaging and running the Spring Boot app) -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
 
-				<!-- Maven Surefire Plugin for JUnit 5 Support -->
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>3.0.0-M5</version> <!-- Updated to support JUnit 5 -->
-<!--					<configuration>-->
-<!--						<useJUnitPlatform>true</useJUnitPlatform>-->
-<!--					</configuration>-->
-				</plugin>
-			</plugins>
+			<!-- Maven Surefire Plugin for JUnit 5 Support -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M5</version> <!-- Updated to support JUnit 5 -->
+			</plugin>
+		</plugins>
 	</build>
 
 </project>

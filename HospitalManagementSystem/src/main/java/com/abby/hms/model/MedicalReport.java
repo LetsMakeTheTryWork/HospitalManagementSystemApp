@@ -1,6 +1,6 @@
 package com.abby.hms.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
@@ -11,15 +11,38 @@ public class MedicalReport {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "patient_id", nullable = false)
-    private Patient patient;
-
-    @Column(nullable = false)
-    private String reportDetails;
-
     @Column(nullable = false)
     private LocalDate reportDate;
 
-    // Getters and setters
+    @Column(nullable = false)
+    private String diagnosis;
+
+    // Add other fields if necessary
+
+    // ✅ Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDate getReportDate() {
+        return reportDate;
+    }
+
+    public void setReportDate(LocalDate reportDate) {
+        this.reportDate = reportDate;
+    }
+
+    public String getDiagnosis() {
+        return diagnosis;
+    }
+
+    public void setDiagnosis(String diagnosis) {
+        this.diagnosis = diagnosis;
+    }
+
+    // Add any additional getters/setters for other fields
 }

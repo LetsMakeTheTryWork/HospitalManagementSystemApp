@@ -1,6 +1,6 @@
 package com.abby.hms.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,15 +11,37 @@ public class ScheduleSlot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private LocalDateTime slotTime;
+
     @ManyToOne
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
-    @Column(nullable = false)
-    private LocalDateTime slotTime;
-
-    @Column(nullable = false)
-    private boolean isAvailable;
-
     // Getters and setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getSlotTime() {
+        return slotTime;
+    }
+
+    public void setSlotTime(LocalDateTime slotTime) {
+        this.slotTime = slotTime;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    // Add more fields as necessary
 }
