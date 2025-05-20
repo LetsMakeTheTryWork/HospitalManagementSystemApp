@@ -4,6 +4,7 @@
 //}
 
 package com.abby.hms.Controller;
+import jakarta.persistence.*;
 
 import org.springframework.web.bind.annotation.*;
 

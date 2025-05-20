@@ -1,6 +1,6 @@
 package com.abby.hms.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "billing")

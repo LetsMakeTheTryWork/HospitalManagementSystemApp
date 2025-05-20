@@ -2,6 +2,8 @@ package com.abby.hms.service;
 
 import com.abby.hms.model.Appointment;
 import com.abby.hms.repository.AppointmentRepository;
+import com.abby.hms.exception.AppointmentNotFoundException; // ✅ Import added
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +18,16 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public Appointment saveAppointment(Appointment appointment) {
+        if (appointment == null) {
+            throw new IllegalArgumentException("Appointment cannot be null");
+        }
         return appointmentRepository.save(appointment);
     }
 
     @Override
     public Appointment getAppointmentById(Long id) {
-        Optional<Appointment> appointment = appointmentRepository.findById(id);
-        return appointment.orElse(null);
+        return appointmentRepository.findById(id)
+                .orElseThrow(() -> new AppointmentNotFoundException("Appointment not found with id: " + id));
     }
 
     @Override
@@ -32,22 +37,25 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public void deleteAppointment(Long id) {
+        if (!appointmentRepository.existsById(id)) {
+            throw new AppointmentNotFoundException("Appointment not found with id: " + id);
+        }
         appointmentRepository.deleteById(id);
     }
 
     @Override
     public Appointment updateAppointment(Long id, Appointment appointmentDetails) {
-        Optional<Appointment> appointment = appointmentRepository.findById(id);
-
-        if (appointment.isPresent()) {
-            Appointment existingAppointment = appointment.get();
-            existingAppointment.setAppointmentDate(appointmentDetails.getAppointmentDate());
-            existingAppointment.setPatient(appointmentDetails.getPatient());
-            // Add more fields as necessary
-
-            return appointmentRepository.save(existingAppointment);
-        } else {
-            return null;
+        if (appointmentDetails == null) {
+            throw new IllegalArgumentException("Appointment details cannot be null");
         }
+
+        Appointment existingAppointment = appointmentRepository.findById(id)
+                .orElseThrow(() -> new AppointmentNotFoundException("Appointment not found with id: " + id));
+
+        existingAppointment.setAppointmentDate(appointmentDetails.getAppointmentDate());
+        existingAppointment.setPatient(appointmentDetails.getPatient());
+        // Add more fields as necessary
+
+        return appointmentRepository.save(existingAppointment);
     }
 }
