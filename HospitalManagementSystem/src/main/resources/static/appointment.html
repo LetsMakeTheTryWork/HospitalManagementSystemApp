@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Centered Appointments</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+<main class="h-screen flex flex-col items-center justify-start pt-16 px-4">
+    <div class="w-full max-w-5xl bg-white p-8 rounded-lg shadow-lg">
+
+        <!-- Header & Add Button -->
+        <div class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
+            <h1 class="text-4xl font-bold text-gray-900">Appointment Management</h1>
+            <button id="toggleFormBtn" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
+                + Add Appointment
+            </button>
+        </div>
+
+        <!-- Search -->
+        <div class="mb-6 max-w-md">
+            <input
+                    type="search"
+                    id="searchInput"
+                    placeholder="Search appointments by patient or doctor..."
+                    class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+        </div>
+
+        <!-- Table -->
+        <div class="overflow-x-auto rounded shadow max-w-full">
+            <table class="min-w-full border-collapse border border-gray-200">
+                <thead class="bg-blue-600 text-white">
+                <tr>
+                    <th class="border border-gray-300 px-4 py-3 text-left">ID</th>
+                    <th class="border border-gray-300 px-4 py-3 text-left">Patient</th>
+                    <th class="border border-gray-300 px-4 py-3 text-left">Doctor</th>
+                    <th class="border border-gray-300 px-4 py-3 text-left">Date</th>
+                    <th class="border border-gray-300 px-4 py-3 text-left">Time</th>
+                    <th class="border border-gray-300 px-4 py-3 text-left">Status</th>
+                    <th class="border border-gray-300 px-4 py-3 text-left">Actions</th>
+                </tr>
+                </thead>
+                <tbody id="appointmentsTableBody" class="text-gray-700">
+                <tr class="hover:bg-gray-100">
+                    <td class="border border-gray-300 px-4 py-2">1</td>
+                    <td class="border border-gray-300 px-4 py-2">John Doe</td>
+                    <td class="border border-gray-300 px-4 py-2">Dr. Smith</td>
+                    <td class="border border-gray-300 px-4 py-2">2025-05-25</td>
+                    <td class="border border-gray-300 px-4 py-2">10:00 AM</td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Confirmed</span>
+                    </td>
+                    <td class="border border-gray-300 px-4 py-2 space-x-3">
+                        <button class="text-blue-600 hover:underline" onclick="alert('Edit not implemented')">Edit</button>
+                        <button class="text-red-600 hover:underline" onclick="this.closest('tr').remove()">Delete</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Add Appointment Form (hidden initially) -->
+        <section id="addAppointmentSection" class="mt-8 p-6 border rounded hidden max-w-lg mx-auto bg-gray-50">
+            <h2 class="text-2xl font-semibold mb-4 text-center text-blue-700">Add New Appointment</h2>
+            <form id="appointmentForm" class="space-y-5">
+                <input type="text" id="patientName" placeholder="Patient Name" required
+                       class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                <input type="text" id="doctorName" placeholder="Doctor Name" required
+                       class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                <div class="flex gap-4">
+                    <input type="date" id="appointmentDate" required
+                           class="flex-1 px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    <input type="time" id="appointmentTime" required
+                           class="flex-1 px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                </div>
+                <select id="appointmentStatus" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option>Confirmed</option>
+                    <option>Pending</option>
+                    <option>Cancelled</option>
+                </select>
+
+                <div class="flex justify-center gap-6 pt-4">
+                    <button type="button" id="cancelAppointment" class="px-6 py-2 border rounded text-gray-600 hover:bg-gray-200">Cancel</button>
+                    <button type="submit" class="px-8 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Save</button>
+                </div>
+            </form>
+        </section>
+    </div>
+</main>
+
+<!--<script>-->
+<!--    const toggleBtn = document.getElementById("toggleFormBtn");-->
+<!--    const addSection = document.getElementById("addAppointmentSection");-->
+<!--    const cancelBtn = document.getElementById("cancelAppointment");-->
+<!--    const form = document.getElementById("appointmentForm");-->
+<!--    const tableBody = document.getElementById("appointmentsTableBody");-->
+<!--    let nextId = 2;-->
+
+<!--    toggleBtn.addEventListener("click", () => {-->
+<!--      addSection.classList.toggle("hidden");-->
+<!--      if (!addSection.classList.contains("hidden")) {-->
+<!--        addSection.scrollIntoView({ behavior: "smooth", block: "center" });-->
+<!--      }-->
+<!--    });-->
+
+<!--    cancelBtn.addEventListener("click", () => {-->
+<!--      form.reset();-->
+<!--      addSection.classList.add("hidden");-->
+<!--      toggleBtn.focus();-->
+<!--    });-->
+
+<!--    form.addEventListener("submit", (e) => {-->
+<!--      e.preventDefault();-->
+
+<!--      const patient = document.getElementById("patientName").value.trim();-->
+<!--      const doctor = document.getElementById("doctorName").value.trim();-->
+<!--      const date = document.getElementById("appointmentDate").value;-->
+<!--      const time = document.getElementById("appointmentTime").value;-->
+<!--      const status = document.getElementById("appointmentStatus").value;-->
+
+<!--      if (!patient || !doctor || !date || !time) {-->
+<!--        alert("Please fill all fields");-->
+<!--        return;-->
+<!--      }-->
+
+<!--      const statusClasses = {-->
+<!--        Confirmed: "bg-green-100 text-green-800",-->
+<!--        Pending: "bg-yellow-100 text-yellow-800",-->
+<!--        Cancelled: "bg-red-100 text-red-800"-->
+<!--      };-->
+
+<!--      const tr = document.createElement("tr");-->
+<!--      tr.className = "hover:bg-gray-100";-->
+<!--      tr.innerHTML = `-->
+<!--        <td class="border border-gray-300 px-4 py-2">${nextId++}</td>-->
+<!--        <td class="border border-gray-300 px-4 py-2">${patient}</td>-->
+<!--        <td class="border border-gray-300 px-4 py-2">${doctor}</td>-->
+<!--        <td class="border border-gray-300 px-4 py-2">${date}</td>-->
+<!--        <td class="border border-gray-300 px-4 py-2">${time}</td>-->
+<!--        <td class="border border-gray-300 px-4 py-2">-->
+<!--          <span class="px-3 py-1 rounded-full text-xs font-semibold ${statusClasses[status]}">${status}</span>-->
+<!--        </td>-->
+<!--        <td class="border border-gray-300 px-4 py-2 space-x-3">-->
+<!--          <button class="text-blue-600 hover:underline" onclick="alert('Edit not implemented')">Edit</button>-->
+<!--          <button class="text-red-600 hover:underline" onclick="this.closest('tr').remove()">Delete</button>-->
+<!--        </td>-->
+<!--      `;-->
+
+<!--      tableBody.appendChild(tr);-->
+<!--      form.reset();-->
+<!--      addSection.classList.add("hidden");-->
+<!--      toggleBtn.focus();-->
+<!--    });-->
+<!--    fetch('http://localhost:8080/api/appointment')  // use singular as per your backend-->
+<!--      .then(response => {-->
+<!--        if (!response.ok) {-->
+<!--          throw new Error('Network response was not ok ' + response.statusText);-->
+<!--        }-->
+<!--        return response.json();-->
+<!--      })-->
+<!--      .then(data => {-->
+<!--        console.log(data); // Handle your appointments data here-->
+<!--        // Example: Update the page with appointment info-->
+<!--      })-->
+<!--      .catch(error => {-->
+<!--        console.error('There was a problem with the fetch operation:', error);-->
+<!--      });-->
+<!--</script>-->
+<script src="js/appointment.js"></script>
+
+
+</body>
+</html>

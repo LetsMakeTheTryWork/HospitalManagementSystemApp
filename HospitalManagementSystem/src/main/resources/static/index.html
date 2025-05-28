@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hospital Management System Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+    <script defer src="js/main.js"></script>
+</head>
+
+<body class="bg-gray-100 text-gray-800 font-sans">
+<div class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white shadow-lg">
+        <div class="p-6 border-b">
+            <h2 class="text-xl font-bold text-blue-600">🏥 HMS Admin</h2>
+        </div>
+
+        <nav class="bg-white h-screen shadow-lg w-64 fixed">
+            <div class="p-6">
+                <h1 class="text-xl font-bold mb-8">Hospital Management</h1>
+                <ul>
+                    <li class="mb-4">
+                        <a href="index.html" class="block text-gray-700 hover:bg-blue-600 hover:text-white rounded px-4 py-2 transition">
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="mb-4">
+                        <a href="patient.html" class="block text-gray-700 hover:bg-blue-600 hover:text-white rounded px-4 py-2 transition">
+                            Patient
+                        </a>
+
+                    <li class="mb-4">
+                        <a href="doctor.html" class="block text-gray-700 hover:bg-blue-600 hover:text-white rounded px-4 py-2 transition">
+                            Doctor
+                        </a>
+                    </li>
+                    <li class="mb-4">
+                        <a href="prescription.html" class="block text-gray-700 hover:bg-blue-600 hover:text-white rounded px-4 py-2 transition">
+                            prescription
+                        </a>
+                    </li>
+                    <li class="mb-4">
+                        <a href="appointment.html" class="block text-gray-700 hover:bg-blue-600 hover:text-white rounded px-4 py-2 transition">
+                            Appointment
+                        </a>
+                    </li>
+                    <li class="mb-4">
+                        <a href="billing.html" class="block text-gray-700 hover:bg-blue-600 hover:text-white rounded px-4 py-2 transition">
+                            Billing
+                        </a>
+                    </li>
+                    <li class="mb-4">
+                        <a href="staff.html" class="block text-gray-700 hover:bg-blue-600 hover:text-white rounded px-4 py-2 transition">
+                            Staff
+                        </a>
+                    </li>
+                    <li class="mb-4">
+                        <a href="medicalReport.html" class="block text-gray-700 hover:bg-blue-600 hover:text-white rounded px-4 py-2 transition">
+                            Medical Report
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="scheduleSlot.html" class="block text-gray-700 hover:bg-blue-600 hover:text-white rounded px-4 py-2 transition">
+                            Schedule Slot
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto p-6">
+        <header class="mb-6">
+            <h1 class="text-3xl font-bold">Dashboard</h1>
+            <p class="text-sm text-gray-600">Welcome to the Hospital Management System.</p>
+        </header>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h2 class="text-sm text-gray-500">Total Patients</h2>
+                <p id="totalPatients" class="text-2xl font-bold">1245</p>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h2 class="text-sm text-gray-500">Appointments Today</h2>
+                <p id="appointmentsToday" class="text-2xl font-bold">42</p>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h2 class="text-sm text-gray-500">Doctors On Duty</h2>
+                <p id="doctorsOnDuty" class="text-2xl font-bold">15</p>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h2 class="text-sm text-gray-500">Pending Bills</h2>
+                <p id="pendingBills" class="text-2xl font-bold">8</p>
+            </div>
+        </div>
+
+        <!-- Quick Access Section -->
+        <div class="mt-8">
+            <h3 class="text-xl font-semibold mb-4">Quick Access</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <a href="patient.html" class="bg-blue-50 hover:bg-blue-100 p-4 rounded-lg shadow text-center">
+                    <h4 class="text-lg font-bold">Patients</h4>
+                    <p class="text-sm">View and manage patients</p>
+                </a>
+                <a href="appointment.html" class="bg-blue-50 hover:bg-blue-100 p-4 rounded-lg shadow text-center">
+                    <h4 class="text-lg font-bold">Appointments</h4>
+                    <p class="text-sm">Today's schedules</p>
+                </a>
+                <a href="billing.html" class="bg-blue-50 hover:bg-blue-100 p-4 rounded-lg shadow text-center">
+                    <h4 class="text-lg font-bold">Billing</h4>
+                    <p class="text-sm">Manage hospital billing</p>
+                </a>
+            </div>
+        </div>
+    </main>
+</div>
+<script>
+
+    fetch('http://localhost:8080/api/dashboard')  // use singular as per your backend
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log(data); // Handle your appointments data here
+          // Example: Update the page with appointment info
+        })
+        .catch(error => {
+          console.error('There was a problem with the fetch operation:', error);
+        });
+</script>
+</body>
+
+</html>

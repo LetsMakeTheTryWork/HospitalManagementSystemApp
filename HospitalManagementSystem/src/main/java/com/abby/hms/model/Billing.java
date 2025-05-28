@@ -17,5 +17,33 @@ public class Billing {
     @Column(nullable = false)
     private double amount;
 
-    // Getters and setters
+    // Getters
+    public Long getId() {
+        return id;
+    }
+
+    public Appointment getAppointment() {
+        return appointment;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public Patient getPatient() {
+        return appointment != null ? appointment.getPatient() : null;
+    }
+
+    // Setters
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setAppointment(Appointment appointment) {
+        this.appointment = appointment;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
 }

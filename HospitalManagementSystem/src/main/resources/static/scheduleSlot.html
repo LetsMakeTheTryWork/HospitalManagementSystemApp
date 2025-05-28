@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Schedule Slots - Hospital Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex">
+
+<!-- Sidebar -->
+<aside class="w-64 bg-white shadow-lg flex flex-col">
+    <div class="p-6 text-2xl font-bold text-blue-700 border-b border-gray-200">
+        HMS
+    </div>
+    <nav class="flex flex-col flex-grow px-6 py-4 space-y-3 text-gray-700">
+        <a href="#" class="hover:text-blue-700 font-semibold">Dashboard</a>
+        <a href="#" class="hover:text-blue-700">Patients</a>
+        <a href="#" class="hover:text-blue-700">Appointments</a>
+        <a href="#" class="hover:text-blue-700">Doctors</a>
+        <a href="#" class="hover:text-blue-700">Departments</a>
+        <a href="#" class="hover:text-blue-700">Billing</a>
+        <a href="#" class="hover:text-blue-700">Medical Reports</a>
+        <a href="#" class="text-blue-700 font-semibold">Schedule Slots</a>
+        <a href="#" class="hover:text-blue-700 mt-auto">Logout</a>
+    </nav>
+</aside>
+
+<!-- Main content -->
+<main class="flex-grow p-8">
+
+    <h1 class="text-4xl font-bold text-gray-900 mb-6">Schedule Slots</h1>
+    <p class="text-gray-600 mb-8">Manage and review doctor schedule slots</p>
+
+    <!-- Search and Add Slot button -->
+    <div class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
+        <input
+                type="search"
+                id="searchInput"
+                placeholder="Search by doctor or date (dd/mm/yyyy)..."
+                class="w-full sm:w-96 px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button id="toggleFormBtn" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition whitespace-nowrap">
+            + Add Slot
+        </button>
+    </div>
+
+    <!-- Schedule Slots Table -->
+    <div class="overflow-x-auto rounded shadow max-w-full mb-8">
+        <table class="min-w-full border-collapse border border-gray-200">
+            <thead class="bg-blue-600 text-white">
+            <tr>
+                <th class="border border-gray-300 px-4 py-3 text-left">Date</th>
+                <th class="border border-gray-300 px-4 py-3 text-left">Time</th>
+                <th class="border border-gray-300 px-4 py-3 text-left">Doctor</th>
+                <th class="border border-gray-300 px-4 py-3 text-left">Status</th>
+                <th class="border border-gray-300 px-4 py-3 text-left">Actions</th>
+            </tr>
+            </thead>
+            <tbody id="slotsTableBody" class="text-gray-700">
+            <!-- Example row -->
+            <tr class="hover:bg-gray-100">
+                <td class="border border-gray-300 px-4 py-2">21/05/2025</td>
+                <td class="border border-gray-300 px-4 py-2">10:00</td>
+                <td class="border border-gray-300 px-4 py-2">Dr. Smith</td>
+                <td class="border border-gray-300 px-4 py-2">Available</td>
+                <td class="border border-gray-300 px-4 py-2 space-x-3">
+                    <button class="text-blue-600 hover:underline" onclick="alert('Edit not implemented')">Edit</button>
+                    <button class="text-red-600 hover:underline" onclick="deleteRow(this)">Delete</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add Schedule Slot Form (hidden initially) -->
+    <section id="addSlotSection" class="mt-8 p-6 border rounded hidden max-w-lg mx-auto bg-gray-50">
+        <h2 class="text-2xl font-semibold mb-4 text-center text-blue-700">Add Schedule Slot</h2>
+        <form id="slotForm" class="space-y-5">
+            <input
+                    type="date"
+                    id="slotDate"
+                    required
+                    class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <input
+                    type="time"
+                    id="slotTime"
+                    required
+                    class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <input
+                    type="text"
+                    id="slotDoctor"
+                    placeholder="Doctor's name"
+                    required
+                    class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <select
+                    id="slotStatus"
+                    class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+                <option value="Available" selected>Available</option>
+                <option value="Booked">Booked</option>
+                <option value="Unavailable">Unavailable</option>
+            </select>
+
+            <div class="flex justify-center gap-6 pt-4">
+                <button type="button" id="cancelSlot" class="px-6 py-2 border rounded text-gray-600 hover:bg-gray-200">Cancel</button>
+                <button type="submit" class="px-8 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Save</button>
+            </div>
+        </form>
+    </section>
+
+</main>
+
+<script>
+    const toggleBtn = document.getElementById("toggleFormBtn");
+    const addSection = document.getElementById("addSlotSection");
+    const cancelBtn = document.getElementById("cancelSlot");
+    const form = document.getElementById("slotForm");
+    const tableBody = document.getElementById("slotsTableBody");
+    const searchInput = document.getElementById("searchInput");
+
+    toggleBtn.addEventListener("click", () => {
+      addSection.classList.toggle("hidden");
+      if (!addSection.classList.contains("hidden")) {
+        addSection.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    });
+
+    cancelBtn.addEventListener("click", () => {
+      form.reset();
+      addSection.classList.add("hidden");
+      toggleBtn.focus();
+    });
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const dateRaw = document.getElementById("slotDate").value;
+      const time = document.getElementById("slotTime").value.trim();
+      const doctor = document.getElementById("slotDoctor").value.trim();
+      const status = document.getElementById("slotStatus").value;
+
+      if (!dateRaw || !time || !doctor) {
+        alert("Please fill all required fields.");
+        return;
+      }
+
+      // Format date as dd/mm/yyyy
+      const dateObj = new Date(dateRaw);
+      const date = dateObj.toLocaleDateString('en-GB');
+
+      const tr = document.createElement("tr");
+      tr.className = "hover:bg-gray-100";
+      tr.innerHTML = `
+        <td class="border border-gray-300 px-4 py-2">${date}</td>
+        <td class="border border-gray-300 px-4 py-2">${time}</td>
+        <td class="border border-gray-300 px-4 py-2">${doctor}</td>
+        <td class="border border-gray-300 px-4 py-2">${status}</td>
+        <td class="border border-gray-300 px-4 py-2 space-x-3">
+          <button class="text-blue-600 hover:underline" onclick="alert('Edit not implemented')">Edit</button>
+          <button class="text-red-600 hover:underline" onclick="deleteRow(this)">Delete</button>
+        </td>
+      `;
+
+      tableBody.appendChild(tr);
+
+      form.reset();
+      addSection.classList.add("hidden");
+      toggleBtn.focus();
+      filterTable();
+    });
+
+    function deleteRow(button) {
+      if (confirm("Are you sure you want to delete this slot?")) {
+        const row = button.closest("tr");
+        row.remove();
+        filterTable();
+      }
+    }
+
+    searchInput.addEventListener("input", filterTable);
+
+    function filterTable() {
+      const filter = searchInput.value.toLowerCase();
+      const rows = tableBody.querySelectorAll("tr");
+      rows.forEach(row => {
+        const doctor = row.cells[2].textContent.toLowerCase();
+        const date = row.cells[0].textContent.toLowerCase();
+        if (doctor.includes(filter) || date.includes(filter)) {
+          row.style.display = "";
+        } else {
+          row.style.display = "none";
+        }
+      });
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Doctors - Hospital Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex">
+
+<!-- Sidebar -->
+<aside class="w-64 bg-white shadow-lg flex flex-col">
+    <div class="p-6 text-2xl font-bold text-blue-700 border-b border-gray-200">
+        HMS
+    </div>
+    <nav class="flex flex-col flex-grow px-6 py-4 space-y-3 text-gray-700">
+        <a href="#" class="hover:text-blue-700 font-semibold">Dashboard</a>
+        <a href="#" class="hover:text-blue-700">Patients</a>
+        <a href="#" class="hover:text-blue-700">Appointments</a>
+        <a href="#" class="text-blue-700 font-semibold">Doctors</a>
+        <a href="#" class="hover:text-blue-700">Departments</a>
+        <a href="#" class="hover:text-blue-700">Billing</a>
+        <a href="#" class="hover:text-blue-700">Medical Reports</a>
+        <a href="#" class="hover:text-blue-700 mt-auto">Logout</a>
+    </nav>
+</aside>
+
+<!-- Main content -->
+<main class="flex-grow p-8">
+
+    <h1 class="text-4xl font-bold text-gray-900 mb-6">Doctors</h1>
+    <p class="text-gray-600 mb-8">Manage doctors, their specialties and contact info</p>
+
+    <!-- Search and Add Doctor button -->
+    <div class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
+        <input
+                type="search"
+                id="searchInput"
+                placeholder="Search doctors by name or specialty..."
+                class="w-full sm:w-96 px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button id="toggleFormBtn" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition whitespace-nowrap">
+            + Add Doctor
+        </button>
+    </div>
+
+    <!-- Doctors Table -->
+    <div class="overflow-x-auto rounded shadow max-w-full mb-8">
+        <table class="min-w-full border-collapse border border-gray-200">
+            <thead class="bg-blue-600 text-white">
+            <tr>
+                <th class="border border-gray-300 px-4 py-3 text-left">Name</th>
+                <th class="border border-gray-300 px-4 py-3 text-left">Specialty</th>
+                <th class="border border-gray-300 px-4 py-3 text-left">Contact</th>
+                <th class="border border-gray-300 px-4 py-3 text-left">Actions</th>
+            </tr>
+            </thead>
+            <tbody id="doctorsTableBody" class="text-gray-700">
+            <!-- Doctor rows will be appended here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add Doctor Form (Hidden Initially) -->
+    <section id="addDoctorSection" class="mt-8 p-6 border rounded hidden max-w-lg mx-auto bg-gray-50">
+        <h2 class="text-2xl font-semibold mb-4 text-center text-blue-700">Add Doctor</h2>
+        <form id="doctorForm" class="space-y-5">
+            <input
+                    type="text"
+                    id="doctorName"
+                    placeholder="Doctor Name"
+                    required
+                    class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+
+            <select
+                    id="specialty"
+                    required
+                    class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+                <option value="">Select Specialty</option>
+                <option>Cardiologist</option>
+                <option>Neurologist</option>
+                <option>Dermatologist</option>
+                <option>Pediatrician</option>
+                <option>Gynecologist</option>
+                <option>Orthopedic Surgeon</option>
+                <option>Oncologist</option>
+                <option>Psychiatrist</option>
+                <option>Ophthalmologist</option>
+                <option>ENT Specialist</option>
+                <option>Gastroenterologist</option>
+                <option>Endocrinologist</option>
+                <option>Nephrologist</option>
+                <option>Radiologist</option>
+                <option>General Practitioner</option>
+            </select>
+
+            <input
+                    type="text"
+                    id="contact"
+                    placeholder="Contact Info"
+                    required
+                    class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+
+            <div class="flex justify-center gap-6 pt-4">
+                <button type="button" id="cancelDoctor" class="px-6 py-2 border rounded text-gray-600 hover:bg-gray-200">Cancel</button>
+                <button type="submit" class="px-8 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Save</button>
+            </div>
+        </form>
+    </section>
+
+</main>
+
+<script>
+    const toggleBtn = document.getElementById("toggleFormBtn");
+    const addSection = document.getElementById("addDoctorSection");
+    const cancelBtn = document.getElementById("cancelDoctor");
+    const form = document.getElementById("doctorForm");
+    const tableBody = document.getElementById("doctorsTableBody");
+    const searchInput = document.getElementById("searchInput");
+
+    toggleBtn.addEventListener("click", () => {
+      addSection.classList.toggle("hidden");
+      if (!addSection.classList.contains("hidden")) {
+        addSection.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    });
+
+    cancelBtn.addEventListener("click", () => {
+      form.reset();
+      addSection.classList.add("hidden");
+      toggleBtn.focus();
+    });
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("doctorName").value.trim();
+      const specialty = document.getElementById("specialty").value.trim();
+      const contact = document.getElementById("contact").value.trim();
+
+      if (!name || !specialty || !contact) {
+        alert("Please fill all fields.");
+        return;
+      }
+
+      const tr = document.createElement("tr");
+      tr.className = "hover:bg-gray-100";
+      tr.innerHTML = `
+        <td class="border border-gray-300 px-4 py-2">${name}</td>
+        <td class="border border-gray-300 px-4 py-2">${specialty}</td>
+        <td class="border border-gray-300 px-4 py-2">${contact}</td>
+        <td class="border border-gray-300 px-4 py-2 space-x-3">
+          <button class="text-red-600 hover:underline" onclick="deleteRow(this)">Delete</button>
+        </td>
+      `;
+
+      tableBody.appendChild(tr);
+
+      form.reset();
+      addSection.classList.add("hidden");
+      toggleBtn.focus();
+      filterTable();
+    });
+
+    function deleteRow(button) {
+      if (confirm("Are you sure you want to delete this doctor?")) {
+        const row = button.closest("tr");
+        row.remove();
+        filterTable();
+      }
+    }
+
+    searchInput.addEventListener("input", filterTable);
+
+    function filterTable() {
+      const filter = searchInput.value.toLowerCase();
+      const rows = tableBody.querySelectorAll("tr");
+      rows.forEach(row => {
+        const name = row.cells[0].textContent.toLowerCase();
+        const specialty = row.cells[1].textContent.toLowerCase();
+
+        if (name.includes(filter) || specialty.includes(filter)) {
+          row.style.display = "";
+        } else {
+          row.style.display = "none";
+        }
+      });
+    }
+</script>
+
+</body>
+</html>

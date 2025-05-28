@@ -1,6 +1,7 @@
 package com.abby.hms.model;
 
 import jakarta.persistence.*;
+
 @Entity
 @Table(name = "prescriptions")
 public class Prescription {
@@ -19,5 +20,37 @@ public class Prescription {
     @Column(nullable = false)
     private String dosage;
 
-    // Getters and setters
+    // Getters
+    public Long getId() {
+        return id;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public String getMedicine() {
+        return medicine;
+    }
+
+    public String getDosage() {
+        return dosage;
+    }
+
+    // Setters
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public void setMedicine(String medicine) {
+        this.medicine = medicine;
+    }
+
+    public void setDosage(String dosage) {
+        this.dosage = dosage;
+    }
 }

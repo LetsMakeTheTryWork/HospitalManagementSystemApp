@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Billing Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+<main class="flex flex-col items-center pt-16 px-4 min-h-screen">
+
+    <div class="w-full max-w-5xl bg-white p-8 rounded-lg shadow-lg">
+
+        <!-- Header & Add Button -->
+        <div class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
+            <h1 class="text-4xl font-bold text-gray-900">Billing Dashboard</h1>
+            <button id="toggleFormBtn" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
+                + Add New Bill
+            </button>
+        </div>
+
+        <!-- Stats -->
+        <div class="flex flex-wrap justify-center gap-8 mb-8 text-center">
+            <div>
+                <p class="text-sm font-semibold text-gray-600 uppercase">Total Revenue</p>
+                <p id="totalRevenue" class="text-3xl font-bold text-green-600">$45,230.00</p>
+            </div>
+            <div>
+                <p class="text-sm font-semibold text-gray-600 uppercase">Pending Bills</p>
+                <p id="pendingBills" class="text-3xl font-bold text-yellow-600">8</p>
+            </div>
+            <div>
+                <p class="text-sm font-semibold text-gray-600 uppercase">Overdue Bills</p>
+                <p id="overdueBills" class="text-3xl font-bold text-red-600">3</p>
+            </div>
+        </div>
+
+        <!-- Billing Table -->
+        <div class="overflow-x-auto rounded shadow max-w-full mb-8">
+            <table class="min-w-full border-collapse border border-gray-200">
+                <thead class="bg-blue-600 text-white">
+                <tr>
+                    <th class="border border-gray-300 px-4 py-3 text-left">Patient</th>
+                    <th class="border border-gray-300 px-4 py-3 text-left">Date</th>
+                    <th class="border border-gray-300 px-4 py-3 text-left">Amount</th>
+                    <th class="border border-gray-300 px-4 py-3 text-left">Status</th>
+                    <th class="border border-gray-300 px-4 py-3 text-left">Payment Method</th>
+                    <th class="border border-gray-300 px-4 py-3 text-left">Actions</th>
+                </tr>
+                </thead>
+                <tbody id="billingTableBody" class="text-gray-700">
+                <tr class="hover:bg-gray-100">
+                    <td class="border border-gray-300 px-4 py-2">John Doe</td>
+                    <td class="border border-gray-300 px-4 py-2">2025-05-15</td>
+                    <td class="border border-gray-300 px-4 py-2">$200.00</td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Pending</span>
+                    </td>
+                    <td class="border border-gray-300 px-4 py-2">Visa</td>
+                    <td class="border border-gray-300 px-4 py-2 space-x-3">
+                        <button class="text-blue-600 hover:underline" onclick="alert('Edit not implemented')">Edit</button>
+                        <button class="text-red-600 hover:underline" onclick="deleteRow(this)">Delete</button>
+                    </td>
+                </tr>
+                <tr class="hover:bg-gray-100">
+                    <td class="border border-gray-300 px-4 py-2">Jane Smith</td>
+                    <td class="border border-gray-300 px-4 py-2">2025-05-10</td>
+                    <td class="border border-gray-300 px-4 py-2">$350.00</td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Paid</span>
+                    </td>
+                    <td class="border border-gray-300 px-4 py-2">PayPal</td>
+                    <td class="border border-gray-300 px-4 py-2 space-x-3">
+                        <button class="text-blue-600 hover:underline" onclick="alert('Edit not implemented')">Edit</button>
+                        <button class="text-red-600 hover:underline" onclick="deleteRow(this)">Delete</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Add New Bill Form (hidden initially) -->
+        <section id="addBillSection" class="mt-8 p-6 border rounded hidden max-w-lg mx-auto bg-gray-50">
+            <h2 class="text-2xl font-semibold mb-4 text-center text-blue-700">Add New Bill</h2>
+            <form id="billForm" class="space-y-5">
+                <input type="text" id="patientName" placeholder="Patient Name" required
+                       class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                <input type="date" id="billingDate" placeholder="Billing Date" required
+                       class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                <input type="number" id="amount" step="0.01" placeholder="Amount ($)" required
+                       class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                <select id="status" required class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">Select status</option>
+                    <option value="Paid">Paid</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Overdue">Overdue</option>
+                </select>
+                <select id="paymentMethod" required class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">Select a payment method</option>
+                    <option value="Visa">Visa</option>
+                    <option value="PayPal">PayPal</option>
+                    <option value="Mastercard">Mastercard</option>
+                </select>
+
+                <div class="flex justify-center gap-6 pt-4">
+                    <button type="button" id="cancelBill" class="px-6 py-2 border rounded text-gray-600 hover:bg-gray-200">Cancel</button>
+                    <button type="submit" class="px-8 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Save</button>
+                </div>
+            </form>
+        </section>
+
+    </div>
+
+</main>
+
+<script>
+    const toggleBtn = document.getElementById("toggleFormBtn");
+    const addSection = document.getElementById("addBillSection");
+    const cancelBtn = document.getElementById("cancelBill");
+    const form = document.getElementById("billForm");
+    const tableBody = document.getElementById("billingTableBody");
+
+    const totalRevenueEl = document.getElementById("totalRevenue");
+    const pendingBillsEl = document.getElementById("pendingBills");
+    const overdueBillsEl = document.getElementById("overdueBills");
+
+    toggleBtn.addEventListener("click", () => {
+      addSection.classList.toggle("hidden");
+      if (!addSection.classList.contains("hidden")) {
+        addSection.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    });
+
+    cancelBtn.addEventListener("click", () => {
+      form.reset();
+      addSection.classList.add("hidden");
+      toggleBtn.focus();
+    });
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const patient = document.getElementById("patientName").value.trim();
+      const date = document.getElementById("billingDate").value;
+      const amount = parseFloat(document.getElementById("amount").value);
+      const status = document.getElementById("status").value;
+      const paymentMethod = document.getElementById("paymentMethod").value;
+
+      if (!patient || !date || isNaN(amount) || !status || !paymentMethod) {
+        alert("Please fill all fields correctly.");
+        return;
+      }
+
+      // Create status badge classes mapping
+      const statusClasses = {
+        Paid: "bg-green-100 text-green-800",
+        Pending: "bg-yellow-100 text-yellow-800",
+        Overdue: "bg-red-100 text-red-800"
+      };
+
+      // Create a new row
+      const tr = document.createElement("tr");
+      tr.className = "hover:bg-gray-100";
+      tr.innerHTML = `
+        <td class="border border-gray-300 px-4 py-2">${patient}</td>
+        <td class="border border-gray-300 px-4 py-2">${date}</td>
+        <td class="border border-gray-300 px-4 py-2">$${amount.toFixed(2)}</td>
+        <td class="border border-gray-300 px-4 py-2">
+          <span class="px-3 py-1 rounded-full text-xs font-semibold ${statusClasses[status]}">${status}</span>
+        </td>
+        <td class="border border-gray-300 px-4 py-2">${paymentMethod}</td>
+        <td class="border border-gray-300 px-4 py-2 space-x-3">
+          <button class="text-blue-600 hover:underline" onclick="alert('Edit not implemented')">Edit</button>
+          <button class="text-red-600 hover:underline" onclick="deleteRow(this)">Delete</button>
+        </td>
+      `;
+
+      tableBody.appendChild(tr);
+
+      form.reset();
+      addSection.classList.add("hidden");
+      toggleBtn.focus();
+
+      updateStats();
+    });
+
+    function deleteRow(button) {
+      if (confirm("Are you sure you want to delete this bill?")) {
+        const row = button.closest("tr");
+        row.remove();
+        updateStats();
+      }
+    }
+
+    // Update the stats displayed on top
+    function updateStats() {
+      let totalRevenue = 0;
+      let pending = 0;
+      let overdue = 0;
+
+      for (const row of tableBody.rows) {
+        const amountText = row.cells[2].textContent.replace("$", "");
+        const amount = parseFloat(amountText);
+        const statusText = row.cells[3].textContent.trim();
+
+        if (!isNaN(amount)) {
+          if (statusText === "Paid") {
+            totalRevenue += amount;
+          } else if (statusText === "Pending") {
+            pending++;
+          } else if (statusText === "Overdue") {
+            overdue++;
+          }
+        }
+      }
+
+      totalRevenueEl.textContent = `$${totalRevenue.toFixed(2)}`;
+      pendingBillsEl.textContent = pending;
+      overdueBillsEl.textContent = overdue;
+    }
+
+    // Initialize stats on page load
+    updateStats();
+</script>
+
+</body>
+</html>

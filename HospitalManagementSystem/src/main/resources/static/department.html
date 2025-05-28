@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Departments - Hospital Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet" />
+    <!-- Link your JS -->
+    <script src="js/main.js"></script>
+
+</head>
+<body class="bg-gray-100 font-sans">
+
+<!-- Header -->
+<header class="bg-white shadow p-4 flex justify-between items-center">
+    <h1 class="text-2xl font-semibold text-gray-800">Departments</h1>
+    <button id="addDeptBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
+        + Add Department
+    </button>
+</header>
+
+<!-- Department List -->
+<main class="p-6 max-w-5xl mx-auto">
+    <div class="bg-white rounded-lg shadow p-4">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+            <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Department Name</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Head of Department</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
+                <th class="px-6 py-3"></th> <!-- Actions -->
+            </tr>
+            </thead>
+            <tbody id="deptTableBody" class="divide-y divide-gray-200">
+            <!-- Departments will be injected here -->
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<!-- Modal for Adding/Editing Department -->
+<div id="deptModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md">
+        <h2 id="modalTitle" class="text-xl font-semibold mb-4">Add Department</h2>
+        <form id="deptForm" class="space-y-4">
+            <div>
+                <label for="deptName" class="block text-sm font-medium text-gray-700">Department Name</label>
+                <input type="text" id="deptName" name="deptName" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" />
+            </div>
+            <div>
+                <label for="deptHead" class="block text-sm font-medium text-gray-700">Head of Department</label>
+                <input type="text" id="deptHead" name="deptHead" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" />
+            </div>
+            <div>
+                <label for="deptContact" class="block text-sm font-medium text-gray-700">Contact Info</label>
+                <input type="text" id="deptContact" name="deptContact" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" />
+            </div>
+            <div class="flex justify-end space-x-2">
+                <button type="button" id="cancelBtn" class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100">Cancel</button>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="js/department.js"></script>
+</body>
+</html>

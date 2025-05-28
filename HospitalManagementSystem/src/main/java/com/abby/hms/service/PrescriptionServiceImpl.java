@@ -52,7 +52,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 
         if (prescription.isPresent()) {
             Prescription existingPrescription = prescription.get();
-            existingPrescription.setMedication(prescriptionDetails.getMedication());
+            existingPrescription.setMedicine(prescriptionDetails.getMedicine());  // FIXED HERE
             existingPrescription.setDosage(prescriptionDetails.getDosage());
             // Add more fields as necessary
 

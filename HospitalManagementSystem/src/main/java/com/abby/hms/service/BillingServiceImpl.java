@@ -1,6 +1,7 @@
 package com.abby.hms.service;
 
 import com.abby.hms.model.Billing;
+import com.abby.hms.model.Appointment;
 import com.abby.hms.repository.BillingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,8 +43,12 @@ public class BillingServiceImpl implements BillingService {
         if (billing.isPresent()) {
             Billing existingBilling = billing.get();
             existingBilling.setAmount(billingDetails.getAmount());
-            existingBilling.setPatient(billingDetails.getPatient());
-            // Add more fields as necessary
+
+            // Update appointment if needed
+            Appointment updatedAppointment = billingDetails.getAppointment();
+            if (updatedAppointment != null) {
+                existingBilling.setAppointment(updatedAppointment);
+            }
 
             return billingRepository.save(existingBilling);
         } else {
