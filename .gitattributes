@@ -1,0 +1,15 @@
+/mvnw text eol=lf
+*.cmd text eol=crlf
+
+# Force GitHub to count Java as primary language
+*.java linguist-detectable=true
+
+# Deprioritize frontend files
+*.html linguist-detectable=false
+*.css linguist-detectable=false
+*.js linguist-detectable=false
+*.json linguist-detectable=false
+*.svg linguist-detectable=false
+*.png linguist-detectable=false
+
+
