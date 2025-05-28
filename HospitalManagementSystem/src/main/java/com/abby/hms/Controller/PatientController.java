@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 public class PatientController {
 
+
     @GetMapping
     public String getAllPatients() {
         return "List of all patients";
