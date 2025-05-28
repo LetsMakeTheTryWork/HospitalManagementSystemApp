@@ -16,7 +16,6 @@ public class PrescriptionController {
     @GetMapping
     public String getAllPrescriptions() {
 
-
         return "List of all prescriptions";
     }
 }
